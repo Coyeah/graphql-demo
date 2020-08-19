@@ -1,9 +1,9 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
-const query = gql`
-    {
+export const GET_TODOS = gql`
+    query GetTodoList {
         todoList{
             _id
             content
@@ -14,7 +14,7 @@ const query = gql`
 
 export const List = () => {
 	return (
-		<Query query={query}>
+		<Query query={GET_TODOS}>
 			{({loading, error, data}) => {
 				if (loading) return <p>Loading...</p>;
 				if (error) return <p>Error :(</p>;

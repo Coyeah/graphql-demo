@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { GET_TODOS } from "./query";
 
 const ADD_TODO = gql`
     mutation addTodo ($content: String!) {
@@ -15,19 +16,8 @@ const ADD_TODO = gql`
     }
 `;
 
-const GET_TODOS = gql`
-    query GetTodoList {
-        todoList{
-            _id
-            content
-            completed
-        }
-    }
-`;
-
 export const AddItem = () => {
 	const inputRef = useRef(null);
-	console.log('AddItem render');
 	return (
 		<Mutation
 			mutation={ADD_TODO}
@@ -37,6 +27,7 @@ export const AddItem = () => {
 					cache.writeQuery({
 						query: GET_TODOS,
 						data: {
+							// todoList: [...todolist || [], ...addTodo.todoList || []]
 							todoList: [...todolist || [], ...addTodo.todoList || []]
 						}
 					});
