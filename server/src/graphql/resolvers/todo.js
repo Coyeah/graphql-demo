@@ -7,12 +7,12 @@ const data = [
 	{
 		_id: "6wfu0frdy",
 		content: "javascript",
-		completed: false
+		completed: true
 	},
 	{
 		_id: "qkox1gdtdc",
 		content: "css",
-		completed: false
+		completed: true
 	}
 ];
 

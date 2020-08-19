@@ -1,15 +1,23 @@
 import ApolloClient from 'apollo-boost';
-// import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import gql from 'graphql-tag';
 
 const cache = new InMemoryCache();
 const resolvers = {
-	toggleFilter: (_root, variables, {cache, getCacheKey}) => {
-		console.log(_root);
-		console.log(variables);
-		console.log(cache, getCacheKey);
+	Mutation: {
+		changeNav: (_root, variables, {cache, getCacheKey}) => {
+			const { key } = variables;
+			const query = gql`
+          query local {
+              nav @client
+          }
+			`;
+			const data = cache.readQuery({ query });
+			data.nav = key;
+			cache.writeData({ data });
+		}
 	}
-}
+};
 
 export const client = new ApolloClient({
 	uri: 'http://localhost:8090/graphql',
@@ -19,7 +27,7 @@ export const client = new ApolloClient({
 
 const initCacheData = {
 	data: {
-		visibilityFilter: 'a',
+		nav: '1'
 	}
 };
 
